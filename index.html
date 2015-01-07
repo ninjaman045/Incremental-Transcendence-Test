@@ -1,77 +1,135 @@
 <!DOCTYPE html>
-<html>
+<!-- property of William and Josh. copywrite 2015. if you see this you are welcome to use codes if you want just dont outright steal ideas and profit off them please. -->
+<html>										<!-- Bassally this is the grossest thing ever -->
+	<head>						<!-- Hopefully Josh can work some black magic and pretty it all up -->
+	<link rel="stylesheet" type="text/css" href="interface.css" />  	<!--Links the css file to this if one ever gets made-->
+	<!--<script src="http://ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script> <!--something to do with saving-->
+	</head>
+	<body>
+		<button onclick = "saveGame()">Save (working on)</button>					<!--Need to work on this-->
+		<br />
+		<button onclick = "loadGame()">Load (working on)</button>
+		<br />
+		<button onclick = "buyMultiple(1)">Buy 1</button>
+		<button onclick = "buyMultiple(10)">Buy 10</button>
+		<button onclick = "buyMultiple(100)">Buy 100</button>
+		<button onclick = "buyMultiple(1000)">Buy 1000</button>
+		How many you are buying: <span id = "amountToBuy">1</span>
+		<!--<button onclick = "onClick(1)">Click me!</button>-->				<!--Creates a button to click and get gold-->
+		<br />																				<!--Moves stuff to the next line-->
+		Population: <span id = "population">0</span>						<!--Shows your population-->
+		<br />
+		Population/Second: <span id = "popPerSec">0</span>		<!--need to add a way to output this to multiple places at once-->
+		<br />
+		Gold: <span id = "gold">0</span>										<!--Shows your Gold-->
+		<br />
+		Gold/Second: <span id = "goldPerSec">0</span>
+		<br />
+		Gold to science ratio: <span id = "goldToScienceRatio">50</span>%
+		<br />
+		<button onclick = "increaseScience()">Increase how much gold converts to science</button>
+		<button onclick = "decreaseScience()">Decrease how much gold converts to science</button>
+		<br />
+		Science: <span id = "science">0</span>
+		<br />
+		Science/Second: <span id = "sciencePerSec1">0</span>
+		<br />
+		<button onclick = "buyCave(1)">Buy Cave							<!--Button to buy a cave-->
+		<br />
+		Each Cave gives you 1 population per second
+		<br />
+		Caves: <span id = "caves">0</span>									<!--Shows how many caves you have-->
+		<br />
+		Cave Cost: <span id = "caveCost">10</span> Gold</button>		<!--Shows cost of next cave-->
+		<button onclick = "">Placeholder
+		<br />
+		<br />
+		<br /></button>
+		<br />
+		<button onclick = "buyDirtHut()">Buy Dirt Hut
+		<br />
+		Each Dirt Hut gives you 10 population per second
+		<br />
+		Dirt Huts: <span id = "dirtHuts">0</span>
+		<br />
+		Dirt Hut Cost: <span id = "dirtHutCost">1000</span> Gold</button>
+		<br />
+		<button onclick = "buyStickHut()">Buy Stick Hut
+		<br />
+		Each Stick Hut gives you 100 population per second
+		<br />
+		Stick Huts: <span id = "stickHuts">0</span>
+		<br />
+		Stick Hut Cost: <span id = "stickHutCost">100 Thousand</span> Gold</button>
+		<br />
+		Upgrades			
+		<br />
+		<button onclick = "upgradeA()">UpgradeA: Boosts Caves pop/sec by 5%		<!--First upgrade, needs named and made to-->
+		<br />																										<!-- dissapear after purchase(maybe?)-->
+		Cost: <span id = "upgradeACost">100</span> gold</button>
+		<br />
+		<button onclick = "upgradeB()">UpgradeB: Boosts Dirt Huts pop/sec by 5%
+		<br />
+		Cost: <span id = "upgradeBCost">10 Thousand</span> gold</button>
+		<br />
+		<button onclick = "upgradeC()">UpgradeC: Boosts Stick Huts pop/sec by 5%
+		<br />
+		Cost: <span id = "upgradeCCost">1 Million</span> gold</button>
+		<br />
+		<button onclick = "dailyReward()">Daily Reward! Doubles gold gains for 15 minutes!</button>
+		<br />
+		Time left on Daily Reward: <span id = "timer">0</span> seconds
+		<br />
+		Time until Daily Reward can be activated: <span id = "timeLeft">0</span> seconds
+		<br />
+		Stats
+		<br />
+		Population/Second: <span id = "popPerSec2">0</span>		<!--Shows population gained per second-->
+		<br />
+		Gold/Second: <span id = "goldPerSec2">0</span>				<!--Shows gold gained per second-->
+		<br />
+		Gold/Pop/Sec: <span id = "goldPerPop">0</span>
+		<br />
+		Science/Second: <span id = "sciencePerSec2">0</span>
+		<br />
+		Science/Pop/Sec: <span id = "sciencePerPop">0</span>
+		<br />
+		All Time Science: <span id = "allTimeScience">0</span>
+		<br />
+		All Time Gold: <span id = "allTimeGold">0</span>				<!--Shows how much gold youve made total-->
+		<br />
+		Achievements
+		<br />
+		Achievement 1: Have 100 gold
+		<br />
+		Completed: <span id = "achieve1Status">Not Completed</span>
+		<br />
+		<br />
+		Achievement 2: Have 1 thousand gold
+		<br />
+		Completed: <span id = "achieve2Status">Not Completed</span>
+		<br />
+		<br />
+		Achievement 3: Have 10 thousand gold
+		<br />
+		Completed: <span id = "achieve3Status">Not Completed</span>
+		<br />
+		<br />
+		<button onclick = "transcend()">Transcend</button>
+		<br />
+		Transcendent Beings: <span id = "transcendentBeings">0</span>
+		<br />
+		Transcendent Beings gained on Transcend: <span id = "tBsToGain">0</span>
+		<br />
+		<br />
+		<button onclick = "confirmReset()">Hard Reset</button>
+		<br />
+		<button onclick = "exportGame()">Export</button>
+		<br />
+		<button onclick = "importGame()">Import</button>
+		<br />
+		Test timer: <span id = "testTimer">0</span>
+		<script type="text/javascript" src="main.js"></script>			<!--Links the javascript file to this-->
+	</body>
 
-  <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="description" content="Game : ">
-
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
-
-    <title>Game</title>
-  </head>
-
-  <body>
-
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/ninjaman045/Game">View on GitHub</a>
-
-          <h1 id="project_title">Game</h1>
-          <h2 id="project_tagline"></h2>
-
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/ninjaman045/Game/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/ninjaman045/Game/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <p>``### Welcome to GitHub Pages.
-This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
-
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
-
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
-
-<h3>
-<a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="https://help.github.com/pages">https://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
-    </div>
-
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Game maintained by <a href="https://github.com/ninjaman045">ninjaman045</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
-    
-
-  </body>
 </html>
