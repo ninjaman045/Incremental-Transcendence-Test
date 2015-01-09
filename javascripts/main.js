@@ -1,10 +1,9 @@
-
 /* William and Josh made this game. (other copywrite stuff would go here I guess) 
 property of William and Josh. copywrite 2015. if you see this you are welcome to use codes if you want just dont outright steal ideas and profit off them.
 */
 
 /*To Do: 
-Prestige!
+Prestige!   (multi tiers in the future!)
 Science! (added but needs something to do with it)
 Better names and descriptions!
 Slightly better balancing!
@@ -15,6 +14,7 @@ More buildings!
 Saving and Loading! (more or less done)
 Import and Export!   (Done i think!)
 Show how much each building gives. (per building? total? base?)
+make gambling not exploitable (ie saves right after gamble and disables import for a few minutes.)
 */
 
 /*BUGS
@@ -29,17 +29,21 @@ function hardReset()				//pretty sure it works now. used to set all values back 
 	gold = 10;							
 	population = 0;
 	caves = 0;
-	cavesPopSec = 1;
+	cavesPopSec = .1;
 	caveBaseCost = 10;
 	caveCost = 10;
 	dirtHuts = 0;
-	dirtHutPopSec = 10;
+	dirtHutPopSec = 2;
 	dirtHutBaseCost = 1000;
 	dirtHutCost = 1000;
 	stickHuts = 0;
-	stickHutPopSec = 100;
+	stickHutPopSec = 15;
 	stickHutBaseCost = 100000;
 	stickHutCost = 100000;
+	sodHouses = 0;
+	sodHousePopSec = 100;
+	sodHouseBaseCost = 10000000;
+	sodHouseCost = 10000000;
 	goldPerPop = .1;
 	allTimeGold = 10;
 	goldPerSec = 0;
@@ -93,17 +97,21 @@ function confirmReset()			//just confirms person wants to reset
 var gold = 10;							
 var population = 0;
 var caves = 0;
-var cavesPopSec = 1;
+var cavesPopSec = .1;
 var caveBaseCost = 10;
 var caveCost = 10;
 var dirtHuts = 0;
-var dirtHutPopSec = 10;
+var dirtHutPopSec = 2;
 var dirtHutBaseCost = 1000;
 var dirtHutCost = 1000;
 var stickHuts = 0;
-var stickHutPopSec = 100;
+var stickHutPopSec = 15;
 var stickHutBaseCost = 100000;
 var stickHutCost = 100000;
+var sodHouses = 0;
+var sodHousePopSec = 100;
+var sodHouseBaseCost = 10000000;
+var sodHouseCost = 10000000;
 var goldPerPop = .1;
 var allTimeGold = 10;
 var goldPerSec = 0;
@@ -134,6 +142,13 @@ var sciencePerSec = 0;
 var allTimeScience = 0;
 var transcendentBeings = 0;
 var tBsToGain = 0;
+var betPercent = .5;
+var winnings;
+var losings;
+var roll1;
+var roll2;
+var roll3;
+
 
 
 var timeBetweenTicks = .1;
@@ -171,6 +186,7 @@ function buyMultiple(number) 				//function to calculate buying multiple of a bu
 	caveCost = caveBaseCost;				//resets the base value each time you click it so reclicking buy 10 or whatever doesnt increase the price
 	dirtHutCost = dirtHutBaseCost;		//^^^^^
 	stickHutCost = stickHutBaseCost;
+	sodHouseCost = sodHouseBaseCost;
 	if (number === 1)							//checks to see how many are trying to be bought
 	{
 		caveCost = caveCost*Math.pow(1.2,caves);									//youve essentially seen this somewhere else im pretty sure
@@ -184,6 +200,10 @@ function buyMultiple(number) 				//function to calculate buying multiple of a bu
 		stickHutCost = stickHutCost*Math.pow(1.2, stickHuts);
 		prettyStickHutCost = prettify(stickHutCost,3)
 		document.getElementById("stickHutCost").innerHTML = prettyStickHutCost;
+		
+		sodHouseCost = sodHouseCost*Math.pow(1.2, sodHouses);
+		prettySodHouseCost = prettify(sodHouseCost,3)
+		document.getElementById("sodHouseCost").innerHTML = prettySodHouseCost;
 	};
 	if (number === 10)
 	{
@@ -207,6 +227,13 @@ function buyMultiple(number) 				//function to calculate buying multiple of a bu
 		+ stickHutCost*Math.pow(1.2,stickHuts+number - 9) + stickHutCost*Math.pow(1.2,stickHuts+number - 10);
 		prettyStickHutCost = prettify(stickHutCost, 3)
 		document.getElementById("stickHutCost").innerHTML = prettyStickHutCost;
+		
+		sodHouseCost = sodHouseCost*Math.pow(1.2,sodHouses+number -1) + sodHouseCost*Math.pow(1.2,sodHouses+number - 2)
+		+ sodHouseCost*Math.pow(1.2,sodHouses+number - 3) + sodHouseCost*Math.pow(1.2,sodHouses+number - 4) + sodHouseCost*Math.pow(1.2,sodHouses+number - 5)
+		+ sodHouseCost*Math.pow(1.2,sodHouses+number - 6) + sodHouseCost*Math.pow(1.2,sodHouses+number - 7) + sodHouseCost*Math.pow(1.2,sodHouses+number - 8)
+		+ sodHouseCost*Math.pow(1.2,sodHouses+number - 9) + sodHouseCost*Math.pow(1.2,sodHouses+number - 10);
+		prettySodHouseCost = prettify(sodHouseCost, 3)
+		document.getElementById("sodHouseCost").innerHTML = prettySodHouseCost;
 	};
 	if (number === 100)
 	{
@@ -230,6 +257,13 @@ function buyMultiple(number) 				//function to calculate buying multiple of a bu
 		+ stickHutCost*Math.pow(1.2,stickHuts+number - 9) + stickHutCost*Math.pow(1.2,stickHuts+number - 10);
 		prettyStickHutCost = prettify(stickHutCost, 3)
 		document.getElementById("stickHutCost").innerHTML = prettyStickHutCost;
+		
+		sodHouseCost = sodHouseCost*Math.pow(1.2,sodHouses+number -1) + sodHouseCost*Math.pow(1.2,sodHouses+number - 2)
+		+ sodHouseCost*Math.pow(1.2,sodHouses+number - 3) + sodHouseCost*Math.pow(1.2,sodHouses+number - 4) + sodHouseCost*Math.pow(1.2,sodHouses+number - 5)
+		+ sodHouseCost*Math.pow(1.2,sodHouses+number - 6) + sodHouseCost*Math.pow(1.2,sodHouses+number - 7) + sodHouseCost*Math.pow(1.2,sodHouses+number - 8)
+		+ sodHouseCost*Math.pow(1.2,sodHouses+number - 9) + sodHouseCost*Math.pow(1.2,sodHouses+number - 10);
+		prettySodHouseCost = prettify(sodHouseCost, 3)
+		document.getElementById("sodHouseCost").innerHTML = prettySodHouseCost;
 	};
 	if (number === 1000)
 	{
@@ -253,6 +287,13 @@ function buyMultiple(number) 				//function to calculate buying multiple of a bu
 		+ stickHutCost*Math.pow(1.2,stickHuts+number - 9) + stickHutCost*Math.pow(1.2,stickHuts+number - 10);
 		prettyStickHutCost = prettify(stickHutCost, 3)
 		document.getElementById("stickHutCost").innerHTML = prettyStickHutCost;
+		
+		sodHouseCost = sodHouseCost*Math.pow(1.2,sodHouses+number -1) + sodHouseCost*Math.pow(1.2,sodHouses+number - 2)
+		+ sodHouseCost*Math.pow(1.2,sodHouses+number - 3) + sodHouseCost*Math.pow(1.2,sodHouses+number - 4) + sodHouseCost*Math.pow(1.2,sodHouses+number - 5)
+		+ sodHouseCost*Math.pow(1.2,sodHouses+number - 6) + sodHouseCost*Math.pow(1.2,sodHouses+number - 7) + sodHouseCost*Math.pow(1.2,sodHouses+number - 8)
+		+ sodHouseCost*Math.pow(1.2,sodHouses+number - 9) + sodHouseCost*Math.pow(1.2,sodHouses+number - 10);
+		prettySodHouseCost = prettify(sodHouseCost, 3)
+		document.getElementById("sodHouseCost").innerHTML = prettySodHouseCost;
 	};
 };
 
@@ -303,6 +344,19 @@ function buyStickHut()
 	};
 };
 
+function buySodHouse()
+{
+	if (gold >= sodHouseCost)
+	{
+		sodHouses = sodHouses + amountToBuy;
+		gold = gold - sodHouseCost;
+		buyMultiple(amountToBuy);
+		document.getElementById("sodHouses").innerHTML = sodHouses;
+		prettyGold = prettify(gold, 3)
+		document.getElementById("gold").innerHTML = prettyGold;
+	}
+}
+
 function buildingPopulation(numberOfBuilding, populationPerBuilding)		//function to calculate the population gains
 {
 	population = population + (numberOfBuilding*populationPerBuilding);
@@ -327,6 +381,107 @@ function decreaseScience()
 		document.getElementById("goldToScienceRatio").innerHTML = goldToScience * 100;
 	};
 };
+
+function increaseBet()   			//almost exactly the same code as increase science
+{
+	if (betPercent < 1)
+	{
+		betPercent = Math.round((betPercent + .05)*100)/100;
+		document.getElementById("betPercent").innerHTML = betPercent*100;
+	}
+}
+
+function decreaseBet()
+{
+	if (betPercent > 0)
+	{
+		betPercent = Math.round((betPercent - .05)*100)/100;
+		document.getElementById("betPercent").innerHTML = betPercent*100;
+	}
+}
+
+function gamble()					//gamble function (duh) perhaps update winning and losing chances and values of each and what not to make it more exiting. at the moment overall loss would be 50% if you gambled a lot.
+{
+	bet = gold*betPercent			//determines how much gold you are betting
+	roll1 = convert()						//sets the rolls equal to the output of the convert function
+	roll2 = convert()
+	roll3 = convert()
+	function convert()					//the convert function!
+	{
+		roll = Math.random()			//sets a random value between 0 and 1
+		if (roll < .5)								//checks to see if the value is less than .5, essentially giving it a 50% chance to be this.
+		{
+			return "Cave"
+		}
+		
+		else if (roll < .75)				//if its not less than .5 it checks to  see if its less than .75, essentially a 25% chance.
+		{
+			return "Dirt Hut"
+		}
+		
+		else if (roll < .875)				//12.5% chance.
+		{
+			return "Stick Hut"
+		}
+		
+		else if (roll < .9375)				//6.25% chance...
+		{
+			return "Transcendent Being"
+		}
+		
+		else 										//also a 6.25% chance
+		{
+			return "Transcendent God"
+		}
+	}
+
+	document.getElementById("roll1").innerHTML = roll1					//outputs each roll
+	document.getElementById("roll2").innerHTML = roll2					//may put a timer in here somewhere to build suspense.
+	document.getElementById("roll3").innerHTML = roll3
+	
+	if (roll1 === roll2 && roll2 === roll3)							//checks to see if all rolls are the same.
+	{
+		switch (roll1)								//if they are switch function sees which roll it is.
+		{
+			case "Cave":										//if its "Cave" it does this
+				winnings = prettify(bet * 3, 3)				//calculates the winnings and makes them pretty.
+				document.getElementById("winnings").innerHTML = "You won with Caves and earned " + winnings + " gold!"   	//outputs the winnings.
+				gold = gold + bet * 3				//actually calculates and adds the winnings to your gold.
+				break;
+			
+			case "Dirt Hut":     					//same same
+				winnings = prettify(bet * 25, 3)
+				document.getElementById("winnings").innerHTML = "You won with Dirt Huts and earned " + winnings + " gold!"
+				gold = gold + bet * 25
+				break;
+			
+			case "Stick Hut":
+				winnings = prettify(bet * 200, 3)
+				document.getElementById("winnings").innerHTML = "You won with Stick Huts and earned " + winnings + " gold!"
+				gold = gold + bet * 200
+				break;
+			
+			case "Transcendent Being":
+				winnings = prettify(bet * 1500, 3)
+				document.getElementById("winnings").innerHTML = "You won with Transcendent Beings and earned " + winnings + " gold!"
+				gold = gold + bet * 1500
+				break;
+				
+			case "Transcendent God":
+				winnings = prettify(bet * 2000, 3)
+				document.getElementById("winnings").innerHTML = "You won with Transcendent Gods and earned " + winnings + " gold!"
+				gold = gold + bet * 2000
+				break;
+		}
+	}
+	
+	else				//what happens if all 3 rolls arent the same.
+	{
+		losings = prettify(bet, 3);  					//calculates and prettifies losings
+		document.getElementById("winnings").innerHTML = "Sorry, but you lost " + losings + " gold!"   		//consolation message.
+		gold = gold - bet				//calculates losses.
+	}
+}
 
 function populationGold(goldPerPop1)									//function to calculate gold gains and science
 {
@@ -411,7 +566,7 @@ function stats()					// creates and outputs different stats
 	prettyATS = prettify(allTimeScience, 3);
 	document.getElementById("allTimeScience").innerHTML = prettyATS;
 	
-	popPerSec = ((caves * cavesPopSec) + (dirtHuts * dirtHutPopSec) + (stickHuts * stickHutPopSec));
+	popPerSec = ((caves * cavesPopSec) + (dirtHuts * dirtHutPopSec) + (stickHuts * stickHutPopSec) + (sodHouses * sodHousePopSec));
 	prettyPPS = prettify(popPerSec, 2)
 	document.getElementById("popPerSec").innerHTML = prettyPPS;
 	document.getElementById("popPerSec2").innerHTML = prettyPPS;
@@ -419,10 +574,10 @@ function stats()					// creates and outputs different stats
 
 function upgradeA()				//upgrade function. May be able to use one function for all upgrades but cant think of a way yet
 {
-	if (gold >= upgradeACost && !(upgrade1))			//can probably remove the upgrade1 false stuff after the upgrades are removed after purchase.
+	if (science >= upgradeACost && !(upgrade1))			//can probably remove the upgrade1 false stuff after the upgrades are removed after purchase.
 	{
 		cavesPopSec = cavesPopSec * 1.05; 		//same as gold per pop needs to be either multiply or add for future stuff
-		gold = gold - upgradeACost;
+		science = science - upgradeACost;
 		upgradeACost = upgradeACost * 10;
 		prettyUpACost = prettify(upgradeACost,0);
 		document.getElementById("upgradeACost").innerHTML = prettyUpACost;
@@ -433,10 +588,10 @@ function upgradeA()				//upgrade function. May be able to use one function for a
 
 function upgradeB()
 {
-	if (gold >= upgradeBCost)
+	if (science >= upgradeBCost)
 	{
 		dirtHutPopSec = dirtHutPopSec * 1.05;
-		gold = gold - upgradeBCost;
+		science = science - upgradeBCost;
 		upgradeBCost = upgradeBCost * 10;
 		prettyUpBCost = prettify(upgradeBCost,0);
 		document.getElementById("upgradeBCost").innerHTML = prettyUpBCost;
@@ -445,10 +600,10 @@ function upgradeB()
 
 function upgradeC()
 {
-	if (gold >= upgradeCCost)
+	if (science >= upgradeCCost)
 	{
 		stickHutPopSec = stickHutPopSec * 1.05;
-		gold = gold - upgradeCCost;
+		science = science - upgradeCCost;
 		upgradeCCost = upgradeCCost * 10;
 		prettyUpCCost = prettify(upgradeCCost,0);
 		document.getElementById("upgradeCCost").innerHTML = prettyUpCCost;
@@ -488,6 +643,10 @@ function checkDailyReward()					//does all the stuff to make sure you only activ
 	{
 		document.getElementById("timeLeft").innerHTML = 0;
 	}
+	if (!dailyRewardActive)
+	{
+		document.getElementById("timer").innerHTML = 0;
+	}
 };
 
 function transcend()						//essentially the prestige as of now
@@ -500,15 +659,18 @@ function transcend()						//essentially the prestige as of now
 			gold = 10;									//all of these just reset values to beginning values except for gold/pop which gets increased by how many transcendent beings you earned.
 			population = 0;
 			caves = 0;
-			cavesPopSec = 1;
+			cavesPopSec = .1;
 			caveCost = 10;
 			dirtHuts = 0;
-			dirtHutPopSec = 10;
+			dirtHutPopSec = 2;
 			dirtHutCost = 1000;
 			stickHuts = 0;
-			stickHutPopSec = 100;
+			stickHutPopSec = 15;
 			stickHutCost = 100000;
-			goldPerPop = .1*transcendentBeings*.1;
+			sodHouses = 0;
+			sodHousePopSec = 100;
+			sodHouseCost = 10000000;
+			goldPerPop = .1*(transcendentBeings*.1+1);
 			achieve1 = false;
 			upgradeACost = 100;
 			upgradeBCost = 10000;
@@ -547,6 +709,10 @@ function prestigeChecker()			//used to show what youd get without actually updat
 	if (tBsToGain > 0)
 	{
 		document.getElementById("tBsToGain").innerHTML = prettify(tBsToGain,3)
+	}
+	if (tBsToGain <= 0)
+	{
+		document.getElementById("tBsToGain").innerHTML = 0;
 	}
 }
 
@@ -606,6 +772,9 @@ function saveGame()         //Better but still needs some work. purpose is self 
 	localStorage.setItem("allTimeScience", JSON.stringify(allTimeScience));
 	localStorage.setItem("goldToScience", JSON.stringify(goldToScience));
 	localStorage.setItem("transcendentBeings", JSON.stringify(transcendentBeings));
+	localStorage.setItem("sodHouses", JSON.stringify(sodHouses));
+	localStorage.setItem("sodHousePopSec", JSON.stringify(sodHousePopSec));
+	localStorage.setItem("sodHouseCost", JSON.stringify(sodHouseCost));
 	
 	gameSaved = true
 	localStorage.setItem("gameSaved", JSON.stringify(gameSaved));
@@ -644,11 +813,14 @@ function loadGame()			//again self explanatory.
 	allTimeScience = JSON.parse(localStorage.getItem("allTimeScience"));
 	goldToScience = JSON.parse(localStorage.getItem("goldToScience"));
 	transcendentBeings = JSON.parse(localStorage.getItem("transcendentBeings"));
+	sodHouses = JSON.parse(localStorage.getItem("sodHouses"));
+	sodHousePopSec = JSON.parse(localStorage.getItem("sodHousePopSec"));
+	sodHouseCost = JSON.parse(localStorage.getItem("sodHouseCost"));
 	
 	
 	
 	document.getElementById("goldToScienceRatio").innerHTML = goldToScience*100;
-	document.getElementById("transcendentBeings").innerHTML = prettify(transcendentBeings);
+	document.getElementById("transcendentBeings").innerHTML = prettify(transcendentBeings, 3);
 	
 	calculateOffline()						//adds what you wouldve gained while you were offline.
 	
@@ -663,11 +835,12 @@ function loadGame()			//again self explanatory.
 	document.getElementById("caves").innerHTML = caves;
 	document.getElementById("dirtHuts").innerHTML = dirtHuts;
 	document.getElementById("stickHuts").innerHTML = stickHuts;
+	document.getElementById("sodHouses").innerHTML = sodHouses;
 };
 
 function exportGame()			//could very easily have some unknown problem but for now i believe it works!
 {
-	window.prompt("Copy this and keep it safe!", window.btoa(JSON.stringify([gold , population, goldPerPop, allTimeGold, caves, cavesPopSec, caveCost, dirtHuts, dirtHutPopSec, dirtHutCost, stickHuts, stickHutPopSec, stickHutCost, achieve1, achieve2, achieve3, upgradeACost, upgradeBCost, upgradeCCost, dayActivated, timer, dailyRewardActive, day, science, allTimeScience, goldToScience, transcendentBeings])))
+	window.prompt("Copy this and keep it safe!", window.btoa(JSON.stringify([gold , population, goldPerPop, allTimeGold, caves, cavesPopSec, caveCost, dirtHuts, dirtHutPopSec, dirtHutCost, stickHuts, stickHutPopSec, stickHutCost, achieve1, achieve2, achieve3, upgradeACost, upgradeBCost, upgradeCCost, dayActivated, timer, dailyRewardActive, day, science, allTimeScience, goldToScience, transcendentBeings, sodHouses, sodHousePopSec, sodHouseCost])))
 	//basically whats going on here is:
 	//made an array with all important variables saved in it
 	//stringified the array with JSON.stringify
@@ -711,10 +884,13 @@ function importGame()
 	allTimeScience = saveArray[24]
 	goldToScience = saveArray[25]
 	transcendentBeings = saveArray[26]
+	sodHouses = saveArray[27]
+	sodHousePopSec = saveArray[28]
+	sodHouseCost = saveArray[29]
 	
 	
 	document.getElementById("goldToScienceRatio").innerHTML = goldToScience*100;
-	document.getElementById("transcendentBeings").innerHTML = prettify(transcendentBeings);
+	document.getElementById("transcendentBeings").innerHTML = prettify(transcendentBeings, 3);
 	
 	calculateOffline()						//adds what you wouldve gained while you were offline.
 	
@@ -867,6 +1043,7 @@ var gameLoop = window.setInterval(function()			//main game function as of now.
 	stats();							//activates the stats function
 	buildingPopulation(dirtHuts, dirtHutPopSec*timeBetweenTicks);
 	buildingPopulation(stickHuts, stickHutPopSec*timeBetweenTicks);
+	buildingPopulation(sodHouses, sodHousePopSec*timeBetweenTicks);
 	d = new Date();
 	day = d.getTime();
 	checkDailyReward();
@@ -885,5 +1062,5 @@ var gameLoop = window.setInterval(function()			//main game function as of now.
 window.setInterval(function()			//autosaves. every 15 mins as of now.
 {
 	saveGame();
-}, 900000)
+}, 10000)
 
