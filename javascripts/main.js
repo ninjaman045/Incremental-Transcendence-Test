@@ -14,7 +14,12 @@ More buildings!
 Saving and Loading! (more or less done)
 Import and Export!   (Done i think!)
 Show how much each building gives. (per building? total? base?)
+
 make gambling not exploitable (ie saves right after gamble and disables import for a few minutes.)
+make daily reward counters pretty!
+
+ADD POPUPS TO LET YOU KNOW HOW MUCH STUFF YOU HAVE
+ie. if you stacked each of your gold pieces on top of one another they would break out of the stratosphere or some shit.
 */
 
 /*BUGS
@@ -24,7 +29,7 @@ they will need a bit of code to make sure they dont get messed up. may try to fi
 If daily reward is active when getting offline it stays active until you get back online. might just not worry about it for now
 */
 
-function hardReset()				//pretty sure it works now. used to set all values back to what they would be when you first started
+function hardReset()				//pretty sure it works now. used to set all values back to original values
 {
 	gold = 10;							
 	population = 0;
@@ -69,7 +74,22 @@ function hardReset()				//pretty sure it works now. used to set all values back 
 	sciencePerSec = 0;
 	allTimeScience = 0;
 	transcendentBeings = 0;
-	
+	treehouses = 0;
+	treehousePopSec = 500;
+	treehouseCost = 1000000000;
+	farms = 0;
+	farmCost = 100000000000;
+	farmPopSec = 1500;
+	stoneBlockHouses = 0;
+	stoneBlockHousePopSec = 25000;
+	stoneBlockHouseCost = 10000000000000000;
+	blacksmiths = 0;
+	blacksmithPopSec = 50000;
+	blacksmithCost = 100000000000000000;
+	transcendentKnights = 0;
+
+
+
 	buyMultiple(1);																													//this and below used to reset different numbers back to original values
 	prettyUpACost = prettify(upgradeACost,0);
 	document.getElementById("upgradeACost").innerHTML = prettyUpACost;
@@ -80,8 +100,16 @@ function hardReset()				//pretty sure it works now. used to set all values back 
 	document.getElementById("caves").innerHTML = caves;
 	document.getElementById("dirtHuts").innerHTML = dirtHuts;
 	document.getElementById("stickHuts").innerHTML = stickHuts;
+	document.getElementById("sodHouses").innerHTML = sodHouses;
+	document.getElementById("treehouses").innerHTML = treehouses;
+	document.getElementById("farms").innerHTML = farms;
+	document.getElementById("stoneBlockHouses").innerHTML = stoneBlockHouses;
+	document.getElementById("blacksmiths").innerHTML = blacksmiths;
+	
 	document.getElementById("transcendentBeings").innerHTML = 0;
 	document.getElementById("tBsToGain").innerHTML = 0;
+	document.getElementById("transcendentKnights").innerHTML = 0;
+	document.getElementById("tKsToGain").innerHTML = 0;
 	
 	document.getElementById("goldToScienceRatio").innerHTML = goldToScience*100;
 };
@@ -148,6 +176,24 @@ var losings;
 var roll1;
 var roll2;
 var roll3;
+var treehouses = 0;
+var treehousePopSec = 500;
+var treehouseBaseCost = 1000000000;
+var treehouseCost = 1000000000;
+var farms = 0;
+var farmBaseCost = 100000000000;
+var farmCost = 100000000000;
+var farmPopSec = 1500;
+var stoneBlockHouses = 0;
+var stoneBlockHousePopSec = 25000;
+var stoneBlockHouseBaseCost = 10000000000000000;
+var stoneBlockHouseCost = 10000000000000000;
+var blacksmiths = 0;
+var blacksmithPopSec = 50000;
+var blacksmithBaseCost = 100000000000000000;
+var blacksmithCost = 100000000000000000;
+var transcendentKnights = 0;
+var tKsToGain = 0;
 
 
 
@@ -159,7 +205,6 @@ var time2 = y.getTime();
 var loopTimer = 100;
 var loopDivisor = 10;
 var testTimer = 0;
-
 
 
 var gameSaved;
@@ -187,6 +232,11 @@ function buyMultiple(number) 				//function to calculate buying multiple of a bu
 	dirtHutCost = dirtHutBaseCost;		//^^^^^
 	stickHutCost = stickHutBaseCost;
 	sodHouseCost = sodHouseBaseCost;
+	treehouseCost = treehouseBaseCost;
+	farmCost = farmBaseCost;
+	stoneBlockHouseCost = stoneBlockHouseBaseCost;
+	blacksmithCost = blacksmithBaseCost;
+	
 	if (number === 1)							//checks to see how many are trying to be bought
 	{
 		caveCost = caveCost*Math.pow(1.2,caves);									//youve essentially seen this somewhere else im pretty sure
@@ -204,6 +254,22 @@ function buyMultiple(number) 				//function to calculate buying multiple of a bu
 		sodHouseCost = sodHouseCost*Math.pow(1.2, sodHouses);
 		prettySodHouseCost = prettify(sodHouseCost,3)
 		document.getElementById("sodHouseCost").innerHTML = prettySodHouseCost;
+		
+		treehouseCost = treehouseCost*Math.pow(1.2, treehouses);
+		prettytreehouseCost = prettify(treehouseCost,3)
+		document.getElementById("treehouseCost").innerHTML = prettytreehouseCost;
+		
+		farmCost = farmCost*Math.pow(1.2, farms);
+		prettyfarmCost = prettify(farmCost,3)
+		document.getElementById("farmCost").innerHTML = prettyfarmCost;
+		
+		stoneBlockHouseCost = stoneBlockHouseCost*Math.pow(1.2, stoneBlockHouses);
+		prettystoneBlockHouseCost = prettify(stoneBlockHouseCost,3)
+		document.getElementById("stoneBlockHouseCost").innerHTML = prettystoneBlockHouseCost;
+		
+		blacksmithCost = blacksmithCost*Math.pow(1.2, blacksmiths);
+		prettyblacksmithCost = prettify(blacksmithCost,3)
+		document.getElementById("blacksmithCost").innerHTML = prettyblacksmithCost;
 	};
 	if (number === 10)
 	{
@@ -234,6 +300,34 @@ function buyMultiple(number) 				//function to calculate buying multiple of a bu
 		+ sodHouseCost*Math.pow(1.2,sodHouses+number - 9) + sodHouseCost*Math.pow(1.2,sodHouses+number - 10);
 		prettySodHouseCost = prettify(sodHouseCost, 3)
 		document.getElementById("sodHouseCost").innerHTML = prettySodHouseCost;
+		
+		treehouseCost = treehouseCost*Math.pow(1.2,treehouses+number -1) + treehouseCost*Math.pow(1.2,treehouses+number - 2)
+		+ treehouseCost*Math.pow(1.2,treehouses+number - 3) + treehouseCost*Math.pow(1.2,treehouses+number - 4) + treehouseCost*Math.pow(1.2,treehouses+number - 5)
+		+ treehouseCost*Math.pow(1.2,treehouses+number - 6) + treehouseCost*Math.pow(1.2,treehouses+number - 7) + treehouseCost*Math.pow(1.2,treehouses+number - 8)
+		+ treehouseCost*Math.pow(1.2,treehouses+number - 9) + treehouseCost*Math.pow(1.2,treehouses+number - 10);
+		prettytreehouseCost = prettify(treehouseCost, 3)
+		document.getElementById("treehouseCost").innerHTML = prettytreehouseCost;
+		
+		farmCost = farmCost*Math.pow(1.2,farms+number -1) + farmCost*Math.pow(1.2,farms+number - 2)
+		+ farmCost*Math.pow(1.2,farms+number - 3) + farmCost*Math.pow(1.2,farms+number - 4) + farmCost*Math.pow(1.2,farms+number - 5)
+		+ farmCost*Math.pow(1.2,farms+number - 6) + farmCost*Math.pow(1.2,farms+number - 7) + farmCost*Math.pow(1.2,farms+number - 8)
+		+ farmCost*Math.pow(1.2,farms+number - 9) + farmCost*Math.pow(1.2,farms+number - 10);
+		prettyfarmCost = prettify(farmCost, 3)
+		document.getElementById("farmCost").innerHTML = prettyfarmCost;
+		
+		stoneBlockHouseCost = stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number -1) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 2)
+		+ stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 3) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 4) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 5)
+		+ stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 6) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 7) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 8)
+		+ stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 9) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 10);
+		prettystoneBlockHouseCost = prettify(stoneBlockHouseCost, 3)
+		document.getElementById("stoneBlockHouseCost").innerHTML = prettystoneBlockHouseCost;
+		
+		blacksmithCost = blacksmithCost*Math.pow(1.2,blacksmiths+number -1) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 2)
+		+ blacksmithCost*Math.pow(1.2,blacksmiths+number - 3) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 4) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 5)
+		+ blacksmithCost*Math.pow(1.2,blacksmiths+number - 6) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 7) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 8)
+		+ blacksmithCost*Math.pow(1.2,blacksmiths+number - 9) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 10);
+		prettyblacksmithCost = prettify(blacksmithCost, 3)
+		document.getElementById("blacksmithCost").innerHTML = prettyblacksmithCost;
 	};
 	if (number === 100)
 	{
@@ -264,6 +358,34 @@ function buyMultiple(number) 				//function to calculate buying multiple of a bu
 		+ sodHouseCost*Math.pow(1.2,sodHouses+number - 9) + sodHouseCost*Math.pow(1.2,sodHouses+number - 10);
 		prettySodHouseCost = prettify(sodHouseCost, 3)
 		document.getElementById("sodHouseCost").innerHTML = prettySodHouseCost;
+		
+		treehouseCost = treehouseCost*Math.pow(1.2,treehouses+number -1) + treehouseCost*Math.pow(1.2,treehouses+number - 2)
+		+ treehouseCost*Math.pow(1.2,treehouses+number - 3) + treehouseCost*Math.pow(1.2,treehouses+number - 4) + treehouseCost*Math.pow(1.2,treehouses+number - 5)
+		+ treehouseCost*Math.pow(1.2,treehouses+number - 6) + treehouseCost*Math.pow(1.2,treehouses+number - 7) + treehouseCost*Math.pow(1.2,treehouses+number - 8)
+		+ treehouseCost*Math.pow(1.2,treehouses+number - 9) + treehouseCost*Math.pow(1.2,treehouses+number - 10);
+		prettytreehouseCost = prettify(treehouseCost, 3)
+		document.getElementById("treehouseCost").innerHTML = prettytreehouseCost;
+		
+		farmCost = farmCost*Math.pow(1.2,farms+number -1) + farmCost*Math.pow(1.2,farms+number - 2)
+		+ farmCost*Math.pow(1.2,farms+number - 3) + farmCost*Math.pow(1.2,farms+number - 4) + farmCost*Math.pow(1.2,farms+number - 5)
+		+ farmCost*Math.pow(1.2,farms+number - 6) + farmCost*Math.pow(1.2,farms+number - 7) + farmCost*Math.pow(1.2,farms+number - 8)
+		+ farmCost*Math.pow(1.2,farms+number - 9) + farmCost*Math.pow(1.2,farms+number - 10);
+		prettyfarmCost = prettify(farmCost, 3)
+		document.getElementById("farmCost").innerHTML = prettyfarmCost;
+		
+		stoneBlockHouseCost = stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number -1) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 2)
+		+ stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 3) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 4) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 5)
+		+ stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 6) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 7) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 8)
+		+ stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 9) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 10);
+		prettystoneBlockHouseCost = prettify(stoneBlockHouseCost, 3)
+		document.getElementById("stoneBlockHouseCost").innerHTML = prettystoneBlockHouseCost;
+		
+		blacksmithCost = blacksmithCost*Math.pow(1.2,blacksmiths+number -1) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 2)
+		+ blacksmithCost*Math.pow(1.2,blacksmiths+number - 3) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 4) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 5)
+		+ blacksmithCost*Math.pow(1.2,blacksmiths+number - 6) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 7) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 8)
+		+ blacksmithCost*Math.pow(1.2,blacksmiths+number - 9) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 10);
+		prettyblacksmithCost = prettify(blacksmithCost, 3)
+		document.getElementById("blacksmithCost").innerHTML = prettyblacksmithCost;
 	};
 	if (number === 1000)
 	{
@@ -294,6 +416,34 @@ function buyMultiple(number) 				//function to calculate buying multiple of a bu
 		+ sodHouseCost*Math.pow(1.2,sodHouses+number - 9) + sodHouseCost*Math.pow(1.2,sodHouses+number - 10);
 		prettySodHouseCost = prettify(sodHouseCost, 3)
 		document.getElementById("sodHouseCost").innerHTML = prettySodHouseCost;
+		
+		treehouseCost = treehouseCost*Math.pow(1.2,treehouses+number -1) + treehouseCost*Math.pow(1.2,treehouses+number - 2)
+		+ treehouseCost*Math.pow(1.2,treehouses+number - 3) + treehouseCost*Math.pow(1.2,treehouses+number - 4) + treehouseCost*Math.pow(1.2,treehouses+number - 5)
+		+ treehouseCost*Math.pow(1.2,treehouses+number - 6) + treehouseCost*Math.pow(1.2,treehouses+number - 7) + treehouseCost*Math.pow(1.2,treehouses+number - 8)
+		+ treehouseCost*Math.pow(1.2,treehouses+number - 9) + treehouseCost*Math.pow(1.2,treehouses+number - 10);
+		prettytreehouseCost = prettify(treehouseCost, 3)
+		document.getElementById("treehouseCost").innerHTML = prettytreehouseCost;
+		
+		farmCost = farmCost*Math.pow(1.2,farms+number -1) + farmCost*Math.pow(1.2,farms+number - 2)
+		+ farmCost*Math.pow(1.2,farms+number - 3) + farmCost*Math.pow(1.2,farms+number - 4) + farmCost*Math.pow(1.2,farms+number - 5)
+		+ farmCost*Math.pow(1.2,farms+number - 6) + farmCost*Math.pow(1.2,farms+number - 7) + farmCost*Math.pow(1.2,farms+number - 8)
+		+ farmCost*Math.pow(1.2,farms+number - 9) + farmCost*Math.pow(1.2,farms+number - 10);
+		prettyfarmCost = prettify(farmCost, 3)
+		document.getElementById("farmCost").innerHTML = prettyfarmCost;
+		
+		stoneBlockHouseCost = stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number -1) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 2)
+		+ stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 3) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 4) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 5)
+		+ stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 6) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 7) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 8)
+		+ stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 9) + stoneBlockHouseCost*Math.pow(1.2,stoneBlockHouses+number - 10);
+		prettystoneBlockHouseCost = prettify(stoneBlockHouseCost, 3)
+		document.getElementById("stoneBlockHouseCost").innerHTML = prettystoneBlockHouseCost;
+		
+		blacksmithCost = blacksmithCost*Math.pow(1.2,blacksmiths+number -1) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 2)
+		+ blacksmithCost*Math.pow(1.2,blacksmiths+number - 3) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 4) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 5)
+		+ blacksmithCost*Math.pow(1.2,blacksmiths+number - 6) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 7) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 8)
+		+ blacksmithCost*Math.pow(1.2,blacksmiths+number - 9) + blacksmithCost*Math.pow(1.2,blacksmiths+number - 10);
+		prettyblacksmithCost = prettify(blacksmithCost, 3)
+		document.getElementById("blacksmithCost").innerHTML = prettyblacksmithCost;
 	};
 };
 
@@ -354,6 +504,54 @@ function buySodHouse()
 		document.getElementById("sodHouses").innerHTML = sodHouses;
 		prettyGold = prettify(gold, 3)
 		document.getElementById("gold").innerHTML = prettyGold;
+	}
+}
+
+function buyTreehouse()
+{
+	if (gold >= treehouseCost)
+	{
+		treehouses = treehouses + amountToBuy;
+		gold = gold - treehouseCost;
+		buyMultiple(amountToBuy);
+		document.getElementById("treehouses").innerHTML = treehouses;
+		document.getElementById("gold").innerHTML = prettify(gold);
+	}
+}
+
+function buyFarm()
+{
+	if (gold >= farmCost)
+	{
+		farms = farms + amountToBuy;
+		gold = gold - farmCost;
+		buyMultiple(amountToBuy);
+		document.getElementById("farms").innerHTML = farms;
+		document.getElementById("gold").innerHTML = prettify(gold);
+	}
+}
+
+function buyStoneBlockHouse()
+{
+	if (gold >= stoneBlockHouseCost)
+	{
+		stoneBlockHouses = stoneBlockHouses + amountToBuy;
+		gold = gold - stoneBlockHouseCost;
+		buyMultiple(amountToBuy);
+		document.getElementById("stoneBlockHouses").innerHTML = stoneBlockHouses;
+		document.getElementById("gold").innerHTML = prettify(gold);
+	}
+}
+
+function buyBlacksmith()
+{
+	if (gold >= blacksmithCost)
+	{
+		blacksmiths = blacksmiths + amountToBuy;
+		gold = gold - blacksmithCost;
+		buyMultiple(amountToBuy);
+		document.getElementById("blacksmiths").innerHTML = blacksmiths;
+		document.getElementById("gold").innerHTML = prettify(gold);
 	}
 }
 
@@ -566,7 +764,7 @@ function stats()					// creates and outputs different stats
 	prettyATS = prettify(allTimeScience, 3);
 	document.getElementById("allTimeScience").innerHTML = prettyATS;
 	
-	popPerSec = ((caves * cavesPopSec) + (dirtHuts * dirtHutPopSec) + (stickHuts * stickHutPopSec) + (sodHouses * sodHousePopSec));
+	popPerSec = ((caves * cavesPopSec) + (dirtHuts * dirtHutPopSec) + (stickHuts * stickHutPopSec) + (sodHouses * sodHousePopSec) + (treehouses * treehousePopSec) + (farms * farmPopSec) + (stoneBlockHouses * stoneBlockHousePopSec) + (blacksmiths * blacksmithPopSec));
 	prettyPPS = prettify(popPerSec, 2)
 	document.getElementById("popPerSec").innerHTML = prettyPPS;
 	document.getElementById("popPerSec2").innerHTML = prettyPPS;
@@ -651,11 +849,86 @@ function checkDailyReward()					//does all the stuff to make sure you only activ
 
 function transcend()						//essentially the prestige as of now
 {
-	if ((Math.pow(allTimeGold/50000, 1/2)-10000) > 0)				//checks to make sure youd actually get something before letting you do it.
+	if ((Math.pow(allTimeGold/50000, 1/3) - 5000) > 0)
 	{
+		tKsToGain = prettify(tKsToGain, 3)
+		tBsToGain = prettify(tBsToGain, 3)
+		if (confirm("This time youll gain "+tKsToGain+" Transcendent Knights as well. Each Transcendent Knight gives you another 25% increase. Transcendent Beings to earn: "+tBsToGain))
+		{
+			transcendentKnights = Math.floor((Math.pow(allTimeGold/50000, 1/3) - 5000));
+			transcendentBeings = Math.floor((Math.pow(allTimeGold/50000, 1/2) - 2500));
+			gold = 10;
+			population = 0;
+			caves = 0;
+			cavesPopSec = .1;
+			caveCost = 10;
+			dirtHuts = 0;
+			dirtHutPopSec = 2;
+			dirtHutCost = 1000;
+			stickHuts = 0;
+			stickHutPopSec = 15;
+			stickHutCost = 100000;
+			sodHouses = 0;
+			sodHousePopSec = 100;
+			sodHouseCost = 10000000;
+			goldPerPop = .1*(transcendentBeings*.1+1) * (transcendentKnights*.25+1);
+			achieve1 = false;
+			upgradeACost = 100;
+			upgradeBCost = 10000;
+			upgradeCCost = 1000000;
+			achieve2 = false;
+			achieve3 = false;
+			upgrade1 = false;
+			upgrade2 = false;
+			upgrade3 = false;
+			science = 0;
+			treehouses = 0;
+			treehousePopSec = 500;
+			treehouseCost = 1000000000;
+			farms = 0;
+			farmPopSec = 1500;
+			farmCost = 100000000000;
+			stoneBlockHouses = 0;
+			stoneBlockHousePopSec = 25000;
+			stoneBlockHouseCost = 10000000000000000;
+			blacksmiths = 0;
+			blacksmithPopSec = 50000;
+			blacksmithCost = 100000000000000000;
+			
+			
+			document.getElementById("gold").innerHTML = prettify(gold, 3);
+			document.getElementById("science").innerHTML = prettify(science, 3);
+			document.getElementById("population").innerHTML = prettify(population, 3);
+			document.getElementById("caves").innerHTML = prettify(caves, 3);
+			document.getElementById("caveCost").innerHTML = prettify(caveCost, 3);
+			document.getElementById("dirtHuts").innerHTML = prettify(dirtHuts, 3);
+			document.getElementById("dirtHutCost").innerHTML = prettify(dirtHutCost, 3);
+			document.getElementById("stickHuts").innerHTML = prettify(stickHuts, 3);
+			document.getElementById("stickHutCost").innerHTML = prettify(stickHutCost, 3);
+			document.getElementById("sodHouses").innerHTML = prettify(sodHouses, 3);
+			document.getElementById("sodHouseCost").innerHTML = prettify(sodHouseCost, 3);
+			document.getElementById("treehouses").innerHTML = prettify(treehouses, 3);
+			document.getElementById("treehouseCost").innerHTML = prettify(treehouseCost, 3);
+			document.getElementById("farms").innerHTML = prettify(farms, 3);
+			document.getElementById("farmCost").innerHTML = prettify(farmCost, 3);
+			document.getElementById("stoneBlockHouses").innerHTML = prettify(stoneBlockHouses, 3);
+			document.getElementById("stoneBlockHouseCost").innerHTML = prettify(stoneBlockHouseCost, 3);
+			document.getElementById("blacksmiths").innerHTML = prettify(blacksmiths, 3);
+			document.getElementById("blacksmithCost").innerHTML = prettify(blacksmithCost, 3);
+			document.getElementById("upgradeACost").innerHTML = prettify(upgradeACost, 3);
+			document.getElementById("upgradeBCost").innerHTML = prettify(upgradeBCost, 3);
+			document.getElementById("upgradeCCost").innerHTML = prettify(upgradeCCost, 3);
+			document.getElementById("transcendentBeings").innerHTML = prettify(transcendentBeings, 3);
+			document.getElementById("transcendentKnights").innerHTML = prettify(transcendentKnights, 3);
+		}
+	}
+	
+	else if ((Math.pow(allTimeGold/50000, 1/2) - 2500) > 0)				//checks to make sure youd actually get something before letting you do it.
+	{
+		tBsToGain = prettify(tBsToGain, 3)
 		if (confirm("Are you sure you want to transcend? You will lose all your gold, science, buildings, achievements, and upgrades. But will earn "+tBsToGain+" Transcendent Beings which give you 10% more gold per population."))			//makes sure you want to transcend
 		{
-			transcendentBeings = Math.floor((Math.pow(allTimeGold/50000, 1/2) - 10000));				//calculates how many transcendent beings you get
+			transcendentBeings = Math.floor((Math.pow(allTimeGold/50000, 1/2) - 2500));				//calculates how many transcendent beings you get
 			gold = 10;									//all of these just reset values to beginning values except for gold/pop which gets increased by how many transcendent beings you earned.
 			population = 0;
 			caves = 0;
@@ -681,23 +954,47 @@ function transcend()						//essentially the prestige as of now
 			upgrade2 = false;
 			upgrade3 = false;
 			science = 0;
+			treehouses = 0;
+			treehousePopSec = 500;
+			treehouseCost = 1000000000;
+			farms = 0;
+			farmPopSec = 1500;
+			farmCost = 100000000000;
+			stoneBlockHouses = 0;
+			stoneBlockHousePopSec = 25000;
+			stoneBlockHouseCost = 10000000000000000;
+			blacksmiths = 0;
+			blacksmithPopSec = 50000;
+			blacksmithCost = 100000000000000000;
 			
-			document.getElementById("gold").innerHTML = prettify(gold);
-			document.getElementById("science").innerHTML = prettify(science);
-			document.getElementById("population").innerHTML = prettify(population);
-			document.getElementById("caves").innerHTML = prettify(caves);
-			document.getElementById("caveCost").innerHTML = prettify(caveCost);
-			document.getElementById("dirtHuts").innerHTML = prettify(dirtHuts);
-			document.getElementById("dirtHutCost").innerHTML = prettify(dirtHutCost);
-			document.getElementById("stickHuts").innerHTML = prettify(stickHuts);
-			document.getElementById("stickHutCost").innerHTML = prettify(stickHutCost);
-			document.getElementById("upgradeACost").innerHTML = prettify(upgradeACost);
-			document.getElementById("upgradeBCost").innerHTML = prettify(upgradeBCost);
-			document.getElementById("upgradeCCost").innerHTML = prettify(upgradeCCost);
+			
+			document.getElementById("gold").innerHTML = prettify(gold, 3);
+			document.getElementById("science").innerHTML = prettify(science, 3);
+			document.getElementById("population").innerHTML = prettify(population, 3);
+			document.getElementById("caves").innerHTML = prettify(caves, 3);
+			document.getElementById("caveCost").innerHTML = prettify(caveCost, 3);
+			document.getElementById("dirtHuts").innerHTML = prettify(dirtHuts, 3);
+			document.getElementById("dirtHutCost").innerHTML = prettify(dirtHutCost, 3);
+			document.getElementById("stickHuts").innerHTML = prettify(stickHuts, 3);
+			document.getElementById("stickHutCost").innerHTML = prettify(stickHutCost, 3);
+			document.getElementById("sodHouses").innerHTML = prettify(sodHouses, 3);
+			document.getElementById("sodHouseCost").innerHTML = prettify(sodHouseCost, 3);
+			document.getElementById("treehouses").innerHTML = prettify(treehouses, 3);
+			document.getElementById("treehouseCost").innerHTML = prettify(treehouseCost, 3);
+			document.getElementById("farms").innerHTML = prettify(farms, 3);
+			document.getElementById("farmCost").innerHTML = prettify(farmCost, 3);
+			document.getElementById("stoneBlockHouses").innerHTML = prettify(stoneBlockHouses, 3);
+			document.getElementById("stoneBlockHouseCost").innerHTML = prettify(stoneBlockHouseCost, 3);
+			document.getElementById("blacksmiths").innerHTML = prettify(blacksmiths, 3);
+			document.getElementById("blacksmithCost").innerHTML = prettify(blacksmithCost, 3);
+			document.getElementById("upgradeACost").innerHTML = prettify(upgradeACost, 3);
+			document.getElementById("upgradeBCost").innerHTML = prettify(upgradeBCost, 3);
+			document.getElementById("upgradeCCost").innerHTML = prettify(upgradeCCost, 3);
 			document.getElementById("transcendentBeings").innerHTML = prettify(transcendentBeings, 3);
 		}
 	}
-	if  ((Math.pow(allTimeGold/50000, 1/2)-10000) < 0)							//what happens if you dont have enough all time gold to gain from a transcend.
+	
+	else if  ((Math.pow(allTimeGold/50000, 1/2)-2500) < 0)							//what happens if you dont have enough all time gold to gain from a transcend.
 	{
 		alert("You don't have enough all time gold to transcend!")
 	}
@@ -705,7 +1002,7 @@ function transcend()						//essentially the prestige as of now
 
 function prestigeChecker()			//used to show what youd get without actually updating the values.
 {
-	tBsToGain = Math.floor((Math.pow(allTimeGold/50000, 1/2) - 10000)) - transcendentBeings;
+	tBsToGain = Math.floor((Math.pow(allTimeGold/50000, 1/2) - 2500)) - transcendentBeings;
 	if (tBsToGain > 0)
 	{
 		document.getElementById("tBsToGain").innerHTML = prettify(tBsToGain,3)
@@ -713,6 +1010,15 @@ function prestigeChecker()			//used to show what youd get without actually updat
 	if (tBsToGain <= 0)
 	{
 		document.getElementById("tBsToGain").innerHTML = 0;
+	}
+	tKsToGain = Math.floor((Math.pow(allTimeGold/50000, 1/3) - 5000)) - transcendentKnights;
+	if (tKsToGain > 0)
+	{
+		document.getElementById("tKsToGain").innerHTML = prettify(tKsToGain, 3)
+	}
+	else
+	{
+		document.getElementById("tKsToGain").innerHTML = 0
 	}
 }
 
@@ -775,6 +1081,19 @@ function saveGame()         //Better but still needs some work. purpose is self 
 	localStorage.setItem("sodHouses", JSON.stringify(sodHouses));
 	localStorage.setItem("sodHousePopSec", JSON.stringify(sodHousePopSec));
 	localStorage.setItem("sodHouseCost", JSON.stringify(sodHouseCost));
+	localStorage.setItem("treehouses", JSON.stringify(treehouses));
+	localStorage.setItem("treehousePopSec", JSON.stringify(treehousePopSec));
+	localStorage.setItem("treehouseCost", JSON.stringify(treehouseCost));
+	localStorage.setItem("farms", JSON.stringify(farms));
+	localStorage.setItem("farmPopSec", JSON.stringify(farmPopSec));
+	localStorage.setItem("farmCost", JSON.stringify(farmCost));
+	localStorage.setItem("stoneBlockHouses", JSON.stringify(stoneBlockHouses));
+	localStorage.setItem("stoneBlockHousePopSec", JSON.stringify(stoneBlockHousePopSec));
+	localStorage.setItem("stoneBlockHouseCost", JSON.stringify(stoneBlockHouseCost));
+	localStorage.setItem("blacksmiths", JSON.stringify(blacksmiths));
+	localStorage.setItem("blacksmithPopSec", JSON.stringify(blacksmithPopSec));
+	localStorage.setItem("blacksmithCost", JSON.stringify(blacksmithCost));
+	localStorage.setItem("transcendentKnights", JSON.stringify(transcendentKnights));
 	
 	gameSaved = true
 	localStorage.setItem("gameSaved", JSON.stringify(gameSaved));
@@ -816,11 +1135,25 @@ function loadGame()			//again self explanatory.
 	sodHouses = JSON.parse(localStorage.getItem("sodHouses"));
 	sodHousePopSec = JSON.parse(localStorage.getItem("sodHousePopSec"));
 	sodHouseCost = JSON.parse(localStorage.getItem("sodHouseCost"));
+	treehouses = JSON.parse(localStorage.getItem("treehouses"));
+	treehousePopSec = JSON.parse(localStorage.getItem("treehousePopSec"));
+	treehouseCost = JSON.parse(localStorage.getItem("treehouseCost"));
+	farms = JSON.parse(localStorage.getItem("farms"));
+	farmPopSec = JSON.parse(localStorage.getItem("farmPopSec"));
+	farmCost = JSON.parse(localStorage.getItem("farmCost"));
+	stoneBlockHouses = JSON.parse(localStorage.getItem("stoneBlockHouses"));
+	stoneBlockHousePopSec = JSON.parse(localStorage.getItem("stoneBlockHousePopSec"));
+	stoneBlockHouseCost = JSON.parse(localStorage.getItem("stoneBlockHouseCost"));
+	blacksmiths = JSON.parse(localStorage.getItem("blacksmiths"));
+	blacksmithPopSec = JSON.parse(localStorage.getItem("blacksmithPopSec"));
+	blacksmithCost = JSON.parse(localStorage.getItem("blacksmithCost"));
+	transcendentKnights = JSON.parse(localStorage.getItem("transcendentKnights"));
 	
 	
 	
 	document.getElementById("goldToScienceRatio").innerHTML = goldToScience*100;
 	document.getElementById("transcendentBeings").innerHTML = prettify(transcendentBeings, 3);
+	document.getElementById("transcendentKnights").innerHTML = prettify(transcendentKnights, 3);
 	
 	calculateOffline()						//adds what you wouldve gained while you were offline.
 	
@@ -836,11 +1169,15 @@ function loadGame()			//again self explanatory.
 	document.getElementById("dirtHuts").innerHTML = dirtHuts;
 	document.getElementById("stickHuts").innerHTML = stickHuts;
 	document.getElementById("sodHouses").innerHTML = sodHouses;
+	document.getElementById("treehouses").innerHTML = treehouses;
+	document.getElementById("farms").innerHTML = farms;
+	document.getElementById("stoneBlockHouses").innerHTML = stoneBlockHouses;
+	document.getElementById("blacksmiths").innerHTML = blacksmiths;
 };
 
 function exportGame()			//could very easily have some unknown problem but for now i believe it works!
 {
-	window.prompt("Copy this and keep it safe!", window.btoa(JSON.stringify([gold , population, goldPerPop, allTimeGold, caves, cavesPopSec, caveCost, dirtHuts, dirtHutPopSec, dirtHutCost, stickHuts, stickHutPopSec, stickHutCost, achieve1, achieve2, achieve3, upgradeACost, upgradeBCost, upgradeCCost, dayActivated, timer, dailyRewardActive, day, science, allTimeScience, goldToScience, transcendentBeings, sodHouses, sodHousePopSec, sodHouseCost])))
+	window.prompt("Copy this and keep it safe!", window.btoa(JSON.stringify([gold , population, goldPerPop, allTimeGold, caves, cavesPopSec, caveCost, dirtHuts, dirtHutPopSec, dirtHutCost, stickHuts, stickHutPopSec, stickHutCost, achieve1, achieve2, achieve3, upgradeACost, upgradeBCost, upgradeCCost, dayActivated, timer, dailyRewardActive, day, science, allTimeScience, goldToScience, transcendentBeings, sodHouses, sodHousePopSec, sodHouseCost, treehouses, treehousePopSec, treehouseCost, farms, farmPopSec, farmCost, stoneBlockHouses, stoneBlockHousePopSec, stoneBlockHouseCost, blacksmiths, blacksmithPopSec, blacksmithCost, transcendentKnights])))
 	//basically whats going on here is:
 	//made an array with all important variables saved in it
 	//stringified the array with JSON.stringify
@@ -887,10 +1224,24 @@ function importGame()
 	sodHouses = saveArray[27]
 	sodHousePopSec = saveArray[28]
 	sodHouseCost = saveArray[29]
+	treehouses = saveArray[30]
+	treehousePopSec = saveArray[31]
+	treehouseCost = saveArray[32]
+	farms = saveArray[33]
+	farmPopSec[34]
+	farmCost = saveArray[35]
+	stoneBlockHouses = saveArray[36]
+	stoneBlockHousePopSec = saveArray[37]
+	stoneBlockHouseCost = saveArray[38]
+	blacksmiths = saveArray[39]
+	blacksmithPopSec = saveArray[40]
+	blacksmithCost = saveArray[41]
+	transcendentKnights = saveArray[42]
 	
 	
 	document.getElementById("goldToScienceRatio").innerHTML = goldToScience*100;
 	document.getElementById("transcendentBeings").innerHTML = prettify(transcendentBeings, 3);
+	document.getElementById("transcendentKnights").innerHTML = prettify(transcendentKnights, 3);
 	
 	calculateOffline()						//adds what you wouldve gained while you were offline.
 	
@@ -905,6 +1256,7 @@ function importGame()
 	document.getElementById("caves").innerHTML = caves;
 	document.getElementById("dirtHuts").innerHTML = dirtHuts;
 	document.getElementById("stickHuts").innerHTML = stickHuts;
+	
 }
 
 function prettify(number, decPlaces)			//makes the numbers pretty!!
@@ -962,81 +1314,20 @@ function prettify(number, decPlaces)			//makes the numbers pretty!!
 		case 14:
 			x = "Tredecillion"
 			break;
-		case 15:
-			x = "Quattuordecillion"
-			break;
-		case 16:
-			x = "Sexdecillion"
-			break;
-		case 17:
-			x = "Septendecillion"
-			break;
-		case 18:
-			x = "Octodecillion"
-			break;
-		case 19:
-			x = "Novemdecillion"
-			break;
-		case 20:
-			x = "Vigintillion"
-			break;
-		case 21:
-			x = "Unvigintillion"
-			break;
-		case 22:
-			x = "Duovigintillion"
-			break;
-		case 23:
-			x = "Tresvigintillion"
-			break;
-		case 24:
-			x = "Quattuorvigintillion"
-			break;
-		case 25:
-			x = "Quinquavigintillion"
-			break;
-		case 26:
-			x = "Sesvigintillion"
-			break;
-		case 27:
-			x = "Septemvigintillion"
-			break;
-		case 28:
-			x = "Octovigintillion"
-			break;
-		case 29:
-			x = "Novemvigintillion"
-			break;
-		case 30:
-			x = "Trigintillion"
-			break;
-		case 31:
-			x = "Untrigintillion"
-			break;
-		case 32:
-			x = "Duotrigintillion"
-			break;
-		case 33:
-			x = "Trestrigintillion"
-			break;
-		case 34:
-			x = "Quattuortrigintillion"
-			break;
 		default:											//used so if someone gets too high of a number it will still show something rather than nothing.
-			x = "Too Many"
+			x = "*10^"+(x*3)
 	};
 	return (number.toFixed(decPlaces)+" "+x)		//finishes it all up with how many decimal places i think a number needs based on what i sent it.
 };
-
 
 
 gameLoop
 
 var gameLoop = window.setInterval(function()			//main game function as of now. 
 {
-	y = new Date();
-	time2 = y.getTime();
-	timeBetweenTicks = Math.round(((time2-time1)/1000)*10)/10
+	y = new Date();				//gets the time when the interval starts
+	time2 = y.getTime();			//converts the time to a value
+	timeBetweenTicks = Math.round(((time2-time1)/1000)*1000)/1000  			//finds the differences between times and rounds it. used to calculate gains regardless of how fast the interval is actually running.
 	buildingPopulation(caves, cavesPopSec*timeBetweenTicks);		//activates the gaining pop function
 	populationGold(goldPerPop*timeBetweenTicks);						//activates the gaining gold function
 	checkAchieve();					//checks for achievements
@@ -1044,22 +1335,26 @@ var gameLoop = window.setInterval(function()			//main game function as of now.
 	buildingPopulation(dirtHuts, dirtHutPopSec*timeBetweenTicks);
 	buildingPopulation(stickHuts, stickHutPopSec*timeBetweenTicks);
 	buildingPopulation(sodHouses, sodHousePopSec*timeBetweenTicks);
+	buildingPopulation(treehouses, treehousePopSec*timeBetweenTicks);
+	buildingPopulation(farms, farmPopSec*timeBetweenTicks);
+	buildingPopulation(stoneBlockHouses, stoneBlockHousePopSec*timeBetweenTicks);
+	buildingPopulation(blacksmiths, blacksmithPopSec*timeBetweenTicks);
 	d = new Date();
 	day = d.getTime();
-	checkDailyReward();
-	prestigeChecker();
+	checkDailyReward();					//checks and updates daily reward info
+	prestigeChecker();				//checks and updates prestige info
 	
 	
 	testTimer = testTimer + 1*timeBetweenTicks;
 	document.getElementById("testTimer").innerHTML = testTimer;
 	
 	
-	x = new Date();
-	time1 = x.getTime();
+	x = new Date();						//gets the time at the end of the interval
+	time1 = x.getTime();			//makes it a value
 }, 100);	
 
 
-window.setInterval(function()			//autosaves. every 15 mins as of now.
+window.setInterval(function()			//autosaves. every 10 secs as of now.
 {
 	saveGame();
 }, 10000)
