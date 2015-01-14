@@ -1,163 +1,235 @@
 <!DOCTYPE html>
-<!-- property of William and Josh. copywrite 2015. if you see this you are welcome to use codes if you want just dont outright steal ideas and profit off them please. -->
-<html>										<!-- Bassally this is the grossest thing ever -->
-	<head>						<!-- Hopefully Josh can work some black magic and pretty it all up -->
-	<link rel="stylesheet" type="text/css" href="interface.css" />  	<!--Links the css file to this if one ever gets made-->
-	<!--<script src="http://ajax.googleapis.com/ajax/libs/mootools/1.4.5/mootools-yui-compressed.js"></script> <!--something to do with saving-->
-	</head>
-	<body>
-		<button onclick = "saveGame()">Save (working on)</button>					<!--Need to work on this-->
-		<br />
-		<button onclick = "loadGame()">Load (working on)</button>
-		<br />
-		<button onclick = "buyMultiple(1)">Buy 1</button>
-		<button onclick = "buyMultiple(10)">Buy 10</button>
-		<button onclick = "buyMultiple(100)">Buy 100</button>
-		<button onclick = "buyMultiple(1000)">Buy 1000</button>
-		How many you are buying: <span id = "amountToBuy">1</span>
-		<!--<button onclick = "onClick(1)">Click me!</button>-->				<!--Creates a button to click and get gold-->
-		<br />																				<!--Moves stuff to the next line-->
-		Population: <span id = "population">0</span>						<!--Shows your population-->
-		<br />
-		Population/Second: <span id = "popPerSec">0</span>		<!--need to add a way to output this to multiple places at once-->
-		<br />
-		Gold: <span id = "gold">0</span>										<!--Shows your Gold-->
-		<br />
-		Gold/Second: <span id = "goldPerSec">0</span>
-		<br />
-		Gold to science ratio: <span id = "goldToScienceRatio">50</span>%
-		<br />
-		<button onclick = "increaseScience()">Increase how much gold converts to science</button>
-		<button onclick = "decreaseScience()">Decrease how much gold converts to science</button>
-		<br />
-		Science: <span id = "science">0</span>
-		<br />
-		Science/Second: <span id = "sciencePerSec1">0</span>
-		<br />
-		<button onclick = "buyCave(1)">Buy Cave							<!--Button to buy a cave-->
-		<br />
-		Each Cave gives you .1 population per second
-		<br />
-		Caves: <span id = "caves">0</span>									<!--Shows how many caves you have-->
-		<br />
-		Cave Cost: <span id = "caveCost">10</span> Gold</button>		<!--Shows cost of next cave-->
-		<button onclick = "">Placeholder
-		<br />
-		<br />
-		<br /></button>
-		<br />
-		<button onclick = "buyDirtHut()">Buy Dirt Hut
-		<br />
-		Each Dirt Hut gives you 2 population per second
-		<br />
-		Dirt Huts: <span id = "dirtHuts">0</span>
-		<br />
-		Dirt Hut Cost: <span id = "dirtHutCost">1000</span> Gold</button>
-		<br />
-		<button onclick = "buyStickHut()">Buy Stick Hut
-		<br />
-		Each Stick Hut gives you 15 population per second
-		<br />
-		Stick Huts: <span id = "stickHuts">0</span>
-		<br />
-		Stick Hut Cost: <span id = "stickHutCost">100 Thousand</span> Gold</button>
-		<br />
-		<button onclick = "buySodHouse()">Buy Sod House
-		<br />
-		Each Sod House gives you 100 population per second
-		<br />
-		Sod Houses: <span id = "sodHouses">0</span>					<!-- somewhere in here should be a lotr hobbit hole reference at some point -->
-		<br />
-		Sod House Cost <span id = "sodHouseCost">10 Million</span> Gold</button>
-		<br />
-		Upgrades			
-		<br />
-		<button onclick = "upgradeA()">UpgradeA: Boosts Caves pop/sec by 5%		<!--First upgrade, needs named and made to-->
-		<br />																										<!-- dissapear after purchase(maybe?)-->
-		Cost: <span id = "upgradeACost">100</span> science</button>
-		<br />
-		<button onclick = "upgradeB()">UpgradeB: Boosts Dirt Huts pop/sec by 5%
-		<br />
-		Cost: <span id = "upgradeBCost">10 Thousand</span> science</button>
-		<br />
-		<button onclick = "upgradeC()">UpgradeC: Boosts Stick Huts pop/sec by 5%
-		<br />
-		Cost: <span id = "upgradeCCost">1 Million</span> science</button>
-		<br />
-		<button onclick = "dailyReward()">Daily Reward! Doubles gold gains for 15 minutes!</button>
-		<br />
-		Time left on Daily Reward: <span id = "timer">0</span> seconds
-		<br />
-		Time until Daily Reward can be activated: <span id = "timeLeft">0</span> seconds
-		<br />
-		Stats
-		<br />
-		Population/Second: <span id = "popPerSec2">0</span>		<!--Shows population gained per second-->
-		<br />
-		Gold/Second: <span id = "goldPerSec2">0</span>				<!--Shows gold gained per second-->
-		<br />
-		Gold/Pop/Sec: <span id = "goldPerPop">0</span>
-		<br />
-		Science/Second: <span id = "sciencePerSec2">0</span>
-		<br />
-		Science/Pop/Sec: <span id = "sciencePerPop">0</span>
-		<br />
-		All Time Science: <span id = "allTimeScience">0</span>
-		<br />
-		All Time Gold: <span id = "allTimeGold">0</span>				<!--Shows how much gold youve made total-->
-		<br />
-		Achievements
-		<br />
-		Achievement 1: Have 100 gold
-		<br />
-		Completed: <span id = "achieve1Status">Not Completed</span>
-		<br />
-		<br />
-		Achievement 2: Have 1 thousand gold
-		<br />
-		Completed: <span id = "achieve2Status">Not Completed</span>
-		<br />
-		<br />
-		Achievement 3: Have 10 thousand gold
-		<br />
-		Completed: <span id = "achieve3Status">Not Completed</span>
-		<br />
-		<br />
-		Prestige
-		<br />
-		<button onclick = "transcend()">Transcend</button>
-		<br />
-		Transcendent Beings: <span id = "transcendentBeings">0</span>
-		<br />
-		Transcendent Beings gained on Transcend: <span id = "tBsToGain">0</span>
-		<br />
-		<br />
-		Gambling
-		<br />
-		Amount of gold being bet: <span id = "betPercent">50</span>%
-		<br />
-		<button onclick = "increaseBet()">Increase betting percentage by 5%</button>
-		<button onclick = "decreaseBet()">Decrease betting percentage by 5%</button>
-		<br />
-		<button onclick= "gamble()">Gamble!</button>
-		<br />
-		Roll 1: <span id = "roll1">Cave</span>
-		<br />
-		Roll 2: <span id = "roll2">Cave</span> 
-		<br />
-		Roll 3: <span id = "roll3">Cave</span>
-		<br />
-		<span id = "winnings">Roll to win!</span>
-		<br />
-		<br />
-		<button onclick = "confirmReset()">Hard Reset</button>
-		<br />
-		<button onclick = "exportGame()">Export</button>
-		<br />
-		<button onclick = "importGame()">Import</button>
-		<br />
-		Test timer: <span id = "testTimer">0</span>
-		<script type="text/javascript" src="javascripts/main.js"></script>			<!--Links the javascript file to this-->
-	</body>
+
+<html>
+
+<head>
+	<title>Incremental Transcendence</title>
+	<link type="text/css" rel="stylesheet" href="/stylesheets/interface.css"/>
+</head>
+
+<body>
+	
+    <div id="wrapper">
+        <div id="top">
+			<!--THIS IS THE HEADER-->
+			<p>
+			<button onclick = "buyMultiple(1)">Buy 1</button>
+			<button onclick = "buyMultiple(10)">Buy 10</button>
+			<button onclick = "buyMultiple(100)">Buy 100</button>
+			<button onclick = "buyMultiple(1000)">Buy 1000</button>
+			Currently buying: <span id = "amountToBuy">1</span></br>
+			Test timer: <span id = "testTimer">0</span>
+			</p>
+        </div>
+        <div id="contentliquid"><div id="content">
+           <p>
+				Tier One Buildings:
+				<br />
+				<br />
+				
+				<button onclick = "buyCave()">Buy Cave							<!--Button to buy a cave--><br />
+				Each Cave gives you .1 population per second
+				<br />
+				Caves: <span id = "caves">0</span>									<!--Shows how many caves you have-->
+				<br />
+				Cave Cost: <span id = "caveCost">10</span> Gold</button>		<!--Shows cost of next cave-->
+				
+				<button onclick = "buyTreehouse()">Buy Treehouse	
+				<br />
+				Each Treehouse gives you 500 population per second
+				<br />
+				Treehouses: <span id = "treehouses">0</span>
+				<br />
+				Treehouse Cost: <span id = "treehouseCost">1 Billion</span> Gold
+				<br />
+				</button>
+				
+				<br />
+				<button onclick = "buyDirtHut()">Buy Dirt Hut
+				<br />
+				Each Dirt Hut gives you 2 population per second
+				<br />
+				Dirt Huts: <span id = "dirtHuts">0</span>
+				<br />
+				Dirt Hut Cost: <span id = "dirtHutCost">1000</span> Gold</button>
+				
+				<button onclick = "buyFarm()">Buy Farm
+				<br />
+				Each Farm gives you 1500 population per second
+				<br />
+				Farms: <span id = "farms">0</span>
+				<br />
+				Farm Cost: <span id = "farmCost">100 Billion</span> Gold</button>
+				<br />
+				
+				<button onclick = "buyStickHut()">Buy Stick Hut
+				<br />
+				Each Stick Hut gives you 15 population per second
+				<br />
+				Stick Huts: <span id = "stickHuts">0</span>
+				<br />
+				Stick Hut Cost: <span id = "stickHutCost">100 Thousand</span> Gold</button>
+				<br />
+				
+				<button onclick = "buySodHouse()">Buy Sod House
+				<br />
+				Each Sod House gives you 100 population per second
+				<br />
+				Sod Houses: <span id = "sodHouses">0</span>					<!-- somewhere in here should be a lotr hobbit hole reference at some point -->
+				<br />
+				Sod House Cost <span id = "sodHouseCost">10 Million</span> Gold</button>
+				<br />
+				<br />
+				
+				
+				Tier 2 Buildings:
+				<br />
+				<br />
+				<button onclick = "buyStoneBlockHouse()">Buy Stone Block House
+				<br />
+				Each Stone Block House gives you 25 Thousand population per second
+				<br />
+				Stone Block Houses: <span id = "stoneBlockHouses">0</span>
+				<br />
+				Stone Block House Cost: <span id = "stoneBlockHouseCost">10 Quadrillion</span> Gold</button>
+				
+				<br />
+				
+				<button onclick = "buyBlacksmith()">Buy Blacksmith
+				<br />
+				Each Blacksmith gives you 50 Thousand population per second
+				<br />
+				Blacksmiths: <span id = "blacksmiths">0</span>
+				<br />
+				Blacksmith Cost: <span id = "blacksmithCost">100 Quadrillion</span> Gold</button>
+				
+				<br />
+				<br />
+				Upgrades			
+				<br />
+				<button onclick = "upgradeA()">UpgradeA: Boosts Caves pop/sec by 5%		<!--First upgrade, needs named and made to-->
+				<br />																										<!-- dissapear after purchase(maybe?)-->
+				Cost: <span id = "upgradeACost">100</span> science</button>
+				<br />
+				<button onclick = "upgradeB()">UpgradeB: Boosts Dirt Huts pop/sec by 5%
+				<br />
+				Cost: <span id = "upgradeBCost">10 Thousand</span> science</button>
+				<br />
+				<button onclick = "upgradeC()">UpgradeC: Boosts Stick Huts pop/sec by 5%
+				<br />
+				Cost: <span id = "upgradeCCost">1 Million</span> science</button>
+				Achievements
+				<br />
+				Achievement 1: Have 100 gold
+				<br />
+				Completed: <span id = "achieve1Status">Not Completed</span>
+				<br />
+				<br />
+				Achievement 2: Have 1 thousand gold
+				<br />
+				Completed: <span id = "achieve2Status">Not Completed</span>
+				<br />
+				<br />
+				Achievement 3: Have 10 thousand gold
+				<br />
+				Completed: <span id = "achieve3Status">Not Completed</span>
+				<br />
+				<br />
+				Prestige
+				<br />
+				<button onclick = "transcend()">Transcend</button>
+				<br />
+				Transcendent Beings give you a 10% boost to gold per pop each and Transcendent Knights give you a 25% boost to gold per pop each.
+				<br />
+				These boosts are multiplicative; ie. 100 Transcendent Beings would give you a 1000%  boost and having 1 Transcendent Knight 
+				<br />
+				with those would boost that up to a 1250% boost.
+				<br />
+				<br />
+				Transcendent Beings: <span id = "transcendentBeings">0</span>
+				<br />
+				Transcendent Beings gained on Transcend: <span id = "tBsToGain">0</span>
+				<br />
+				<br />
+				Transcendent Knights: <span id = "transcendentKnights">0</span>
+				<br />
+				Transcendent Knights gained on Transcend: <span id = "tKsToGain">0</span>
+				<br />
+				<br />
+					<div id="hidden">
+						Gambling
+						<br />
+						Amount of gold being bet: <span id = "betPercent">50</span>%
+						<br />
+						<button onclick = "increaseBet()">Increase betting percentage by 5%</button>
+						<button onclick = "decreaseBet()">Decrease betting percentage by 5%</button>
+						<br />
+						<button onclick= "gamble()">Gamble!</button>
+						<br />
+						Roll 1: <span id = "roll1">Cave</span>
+						<br />
+						Roll 2: <span id = "roll2">Cave</span> 
+						<br />
+						Roll 3: <span id = "roll3">Cave</span>
+						<br />
+						<span id = "winnings">Roll to win!</span>
+						<br />
+						<br />
+						
+					</div>
+			</p>
+       </div></div>
+        <div id="leftcolumn">
+            Population: <span id = "population">0</span><br />						<!--Shows your population-->
+		Population/Second: <span id = "popPerSec">0</span><br />		<!--need to add a way to output this to multiple places at once-->
+		Gold: <span id = "gold">0</span><br />									<!--Shows your Gold-->
+		Gold/Second: <span id = "goldPerSec">0</span><br />
+		Gold to science ratio: <span id = "goldToScienceRatio">50</span>% <br />
+		
+		<div id="sciAmtButton">
+			<button onclick = "increaseScience()">Increase how much gold converts to science</button><br />
+			<button onclick = "decreaseScience()">Decrease how much gold converts to science</button>
+			<br />
+		</div>
+		Science: <span id = "science">0</span><br />
+		Science/Second: <span id = "sciencePerSec1">0</span><br />
+			<p><button onclick = "saveGame()">Save (working on)</button>					
+			<br />
+			<button onclick = "loadGame()">Load (working on)</button>
+			<br />
+			<button onclick = "confirmReset()">Hard Reset</button>
+			<br />
+			<button onclick = "exportGame()">Export</button>
+			<br />
+			<button onclick = "importGame()">Import</button></p>
+			<button onclick = "dailyReward()">Daily Reward! Doubles gold gains for 15 minutes!</button>
+			<br />
+			Time left on Daily Reward: <span id = "timer">0</span> seconds
+			<br />
+			Time until Daily Reward can be activated: <span id = "timeLeft">0</span> seconds
+			<br />
+			Stats
+			<br />
+			Population/Second: <span id = "popPerSec2">0</span>		<!--Shows population gained per second-->
+			<br />
+			Gold/Second: <span id = "goldPerSec2">0</span>				<!--Shows gold gained per second-->
+			<br />
+			Gold/Pop/Sec: <span id = "goldPerPop">0</span>
+			<br />
+			Science/Second: <span id = "sciencePerSec2">0</span>
+			<br />
+			Science/Pop/Sec: <span id = "sciencePerPop">0</span>
+			<br />
+			All Time Science: <span id = "allTimeScience">0</span>
+			<br />
+			All Time Gold: <span id = "allTimeGold">0</span>				<!--Shows how much gold youve made total-->
+		</div>
+        <div id="footer">
+			<!--THIS IS THE FOOTER-->
+            <p></p>
+        </div>
+    </div>
+	<script type="text/javascript" src="/javascripts/main.js"></script>
+</body>
 
 </html>
