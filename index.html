@@ -34,7 +34,33 @@
 				<br />
 				Cave Cost: <span id = "caveCost">10</span> Gold</div>		<!--Shows cost of next cave-->
 				
-				<button onclick = "buyTreehouse()">Buy Treehouse	
+				
+				
+				<div class = "building" onclick = "buyDirtHut()">Buy Dirt Hut
+				<br />
+				Each Dirt Hut gives you 2 population per second
+				<br />
+				Dirt Huts: <span id = "dirtHuts">0</span>
+				<br />
+				Dirt Hut Cost: <span id = "dirtHutCost">1000</span> Gold</div>
+				
+				<div class = "building" onclick = "buyStickHut()">Buy Stick Hut
+				<br />
+				Each Stick Hut gives you 15 population per second
+				<br />
+				Stick Huts: <span id = "stickHuts">0</span>
+				<br />
+				Stick Hut Cost: <span id = "stickHutCost">100 Thousand</span> Gold</div>
+				
+				<div class = "building" onclick = "buySodHouse()">Buy Sod House
+				<br />
+				Each Sod House gives you 100 population per second
+				<br />
+				Sod Houses: <span id = "sodHouses">0</span>					<!-- somewhere in here should be a lotr hobbit hole reference at some point -->
+				<br />
+				Sod House Cost <span id = "sodHouseCost">10 Million</span> Gold</div>
+				
+				<div class = "building" onclick = "buyTreehouse()">Buy Treehouse	
 				<br />
 				Each Treehouse gives you 500 population per second
 				<br />
@@ -42,82 +68,53 @@
 				<br />
 				Treehouse Cost: <span id = "treehouseCost">1 Billion</span> Gold
 				<br />
-				</button>
+				</div>
 				
-				<br />
-				<button onclick = "buyDirtHut()">Buy Dirt Hut
-				<br />
-				Each Dirt Hut gives you 2 population per second
-				<br />
-				Dirt Huts: <span id = "dirtHuts">0</span>
-				<br />
-				Dirt Hut Cost: <span id = "dirtHutCost">1000</span> Gold</button>
-				
-				<button onclick = "buyFarm()">Buy Farm
+				<div class = "building" onclick = "buyFarm()">Buy Farm
 				<br />
 				Each Farm gives you 1500 population per second
 				<br />
 				Farms: <span id = "farms">0</span>
 				<br />
-				Farm Cost: <span id = "farmCost">100 Billion</span> Gold</button>
-				<br />
-				
-				<button onclick = "buyStickHut()">Buy Stick Hut
-				<br />
-				Each Stick Hut gives you 15 population per second
-				<br />
-				Stick Huts: <span id = "stickHuts">0</span>
-				<br />
-				Stick Hut Cost: <span id = "stickHutCost">100 Thousand</span> Gold</button>
-				<br />
-				
-				<button onclick = "buySodHouse()">Buy Sod House
-				<br />
-				Each Sod House gives you 100 population per second
-				<br />
-				Sod Houses: <span id = "sodHouses">0</span>					<!-- somewhere in here should be a lotr hobbit hole reference at some point -->
-				<br />
-				Sod House Cost <span id = "sodHouseCost">10 Million</span> Gold</button>
+				Farm Cost: <span id = "farmCost">100 Billion</span> Gold</div>
 				<br />
 				<br />
-				
-				
 				Tier 2 Buildings:
 				<br />
 				<br />
-				<button onclick = "buyStoneBlockHouse()">Buy Stone Block House
+				<div class = "building" onclick = "buyStoneBlockHouse()">Buy Stone Block House
 				<br />
 				Each Stone Block House gives you 25 Thousand population per second
 				<br />
 				Stone Block Houses: <span id = "stoneBlockHouses">0</span>
 				<br />
-				Stone Block House Cost: <span id = "stoneBlockHouseCost">10 Quadrillion</span> Gold</button>
-				
+				Stone Block House Cost: <span id = "stoneBlockHouseCost">10 Quadrillion</span> Gold</div>
 				<br />
 				
-				<button onclick = "buyBlacksmith()">Buy Blacksmith
+				<div class = "building" onclick = "buyBlacksmith()">Buy Blacksmith
 				<br />
 				Each Blacksmith gives you 50 Thousand population per second
 				<br />
 				Blacksmiths: <span id = "blacksmiths">0</span>
 				<br />
-				Blacksmith Cost: <span id = "blacksmithCost">100 Quadrillion</span> Gold</button>
+				Blacksmith Cost: <span id = "blacksmithCost">100 Quadrillion</span> Gold</div>
 				
 				<br />
 				<br />
 				Upgrades			
 				<br />
-				<button onclick = "upgradeA()">UpgradeA: Boosts Caves pop/sec by 5%		<!--First upgrade, needs named and made to-->
+				<div class = "upgrade" onclick = "upgradeA()">UpgradeA: Boosts Caves pop/sec by 5%		<!--First upgrade, needs named and made to-->
 				<br />																										<!-- dissapear after purchase(maybe?)-->
-				Cost: <span id = "upgradeACost">100</span> science</button>
+				Cost: <span id = "upgradeACost">100</span> science</div>
+				
+				<div class = "upgrade" onclick = "upgradeB()">UpgradeB: Boosts Dirt Huts pop/sec by 5%
 				<br />
-				<button onclick = "upgradeB()">UpgradeB: Boosts Dirt Huts pop/sec by 5%
+				Cost: <span id = "upgradeBCost">10 Thousand</span> science</div>
+				
+				<div class = "upgrade" onclick = "upgradeC()">UpgradeC: Boosts Stick Huts pop/sec by 5%
 				<br />
-				Cost: <span id = "upgradeBCost">10 Thousand</span> science</button>
+				Cost: <span id = "upgradeCCost">1 Million</span> science</div>
 				<br />
-				<button onclick = "upgradeC()">UpgradeC: Boosts Stick Huts pop/sec by 5%
-				<br />
-				Cost: <span id = "upgradeCCost">1 Million</span> science</button>
 				Achievements
 				<br />
 				Achievement 1: Have 100 gold
