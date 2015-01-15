@@ -4,8 +4,27 @@
 	cursor: pointer;
 	background-color: #AFAFAF;
 	color: #000000;
-	width: 380px;
+	width: 500px;
 	height: 70px;
+	margin: 5px;
+	text-align: center;
+	display: inline-block;
+	
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.upgrade
+{
+	cursor: pointer;
+	background-color: #AFAFAF;
+	color: #000000;
+	width: 400px;
+	height: 45px;
 	margin: 5px;
 	text-align: center;
 	
@@ -17,12 +36,18 @@
     -ms-user-select: none;
     user-select: none;
 }
-.building:hover
+
+.upgrade:hover
 {
 	background-color: #8f8f8f;
 	color: #111111
 }
 
+.building:hover
+{
+	background-color: #8f8f8f;
+	color: #111111
+}
 
 body {
     font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -74,5 +99,5 @@ p {
 }
 
 #hidden {
-	visibility: hidden;
+	display: none;
 }
