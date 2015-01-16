@@ -1197,7 +1197,7 @@ function importGame()
 	gold = saveArray[0]
 	population = saveArray[1]
 	goldPerPop = saveArray[2]
-	allTimeGold = [3]
+	allTimeGold = saveArray[3]
 	caves = saveArray[4]
 	cavesPopSec = saveArray[5]
 	caveCost = saveArray[6]
