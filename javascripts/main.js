@@ -1228,7 +1228,7 @@ function importGame()
 	treehousePopSec = saveArray[31]
 	treehouseCost = saveArray[32]
 	farms = saveArray[33]
-	farmPopSec[34]
+	farmPopSec = saveArray[34]
 	farmCost = saveArray[35]
 	stoneBlockHouses = saveArray[36]
 	stoneBlockHousePopSec = saveArray[37]
