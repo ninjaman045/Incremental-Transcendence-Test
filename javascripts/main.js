@@ -2249,6 +2249,7 @@ function higher()
 		document.getElementById("higherLowerWinnings").innerHTML = "Winnings: "+prettify(bet, 3)+" Gold";
 		gold = bet + gold;
 		//document.getElementById("higherLowerStart").style.display = "inline"
+		higherLowerTotala = higherLowerTotalb
 	}
 	
 	else
@@ -2256,6 +2257,7 @@ function higher()
 		document.getElementById("higherLowerWinnings").innerHTML = "Sorry you lost: "+prettify(bet, 3)+ " Gold";
 		gold = gold - bet;
 		//document.getElementById("higherLowerStart").style.display = "inline"
+		higherLowerTotala = higherLowerTotalb
 	}
 }
 
@@ -2276,6 +2278,7 @@ function lower()
 		document.getElementById("higherLowerWinnings").innerHTML = "Winnings: "+prettify(bet, 3)+" Gold";
 		gold = bet + gold;
 		//document.getElementById("higherLowerStart").style.display = "inline"
+		higherLowerTotala = higherLowerTotalb
 	}
 	
 	else
@@ -2283,6 +2286,7 @@ function lower()
 		document.getElementById("higherLowerWinnings").innerHTML = "Sorry you lost: "+prettify(bet, 3)+ " Gold";
 		gold = gold - bet;
 		//document.getElementById("higherLowerStart").style.display = "inline"
+		higherLowerTotala = higherLowerTotalb
 	}
 }
 
